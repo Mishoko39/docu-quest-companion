@@ -41,7 +41,7 @@ const EditUserDialog = ({ user, open, onOpenChange }: EditUserDialogProps) => {
       setForm({
         first_name: user.first_name || "",
         last_name: user.last_name || "",
-        role: user.user_roles?.[0]?.role || "user",
+        role: user.user_roles?.some((r: any) => r.role === "admin") ? "admin" : "user",
         poles: user.user_poles?.map((up: any) => up.pole_id) || [],
         is_active: user.is_active ?? true,
       });
