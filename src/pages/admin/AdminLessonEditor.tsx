@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Plus, Trash2, GripVertical } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 type BlockType = Database["public"]["Enums"]["block_type"];
 
