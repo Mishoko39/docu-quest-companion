@@ -44,30 +44,18 @@ const AdminUsers = () => {
 
   const createUser = useMutation({
     mutationFn: async () => {
-      // Sign up user via Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: {
-          data: { first_name: form.first_name, last_name: form.last_name },
+      const { data, error } = await supabase.functions.invoke("create-user", {
+        body: {
+          email: form.email,
+          password: form.password,
+          first_name: form.first_name,
+          last_name: form.last_name,
+          role: form.role,
+          pole_ids: form.poles,
         },
       });
-      if (authError) throw authError;
-      if (!authData.user) throw new Error("Erreur lors de la création");
-
-      const userId = authData.user.id;
-
-      // Update role if admin
-      if (form.role === "admin") {
-        await supabase.from("user_roles").insert({ user_id: userId, role: "admin" });
-      }
-
-      // Assign poles
-      if (form.poles.length > 0) {
-        await supabase.from("user_poles").insert(
-          form.poles.map((poleId) => ({ user_id: userId, pole_id: poleId }))
-        );
-      }
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
     },
     onSuccess: () => {
       toast({ title: "Utilisateur créé avec succès" });
