@@ -34,11 +34,19 @@ const AdminUsers = () => {
   const { data: users } = useQuery({
     queryKey: ["admin-users"],
     queryFn: async () => {
-      const { data } = await supabase
-        .from("profiles")
-        .select("*, user_roles(role), user_poles(pole_id, pole:poles(name, slug))")
-        .order("created_at", { ascending: false });
-      return data;
+      const [profilesRes, rolesRes, polesRes] = await Promise.all([
+        supabase.from("profiles").select("*").order("created_at", { ascending: false }),
+        supabase.from("user_roles").select("user_id, role"),
+        supabase.from("user_poles").select("user_id, pole_id, pole:poles(name, slug)"),
+      ]);
+      if (profilesRes.error) throw profilesRes.error;
+      const roles = rolesRes.data || [];
+      const userPoles = polesRes.data || [];
+      return (profilesRes.data || []).map((p) => ({
+        ...p,
+        user_roles: roles.filter((r) => r.user_id === p.user_id),
+        user_poles: userPoles.filter((up) => up.user_id === p.user_id),
+      }));
     },
   });
 
