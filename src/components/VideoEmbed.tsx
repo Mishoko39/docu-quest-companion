@@ -5,7 +5,7 @@ interface VideoEmbedProps {
 export const VideoEmbed = ({ url }: VideoEmbedProps) => {
   if (!url) return null;
 
-  // Extract Vimeo ID or use URL directly
+  // Extract Vimeo ID
   let embedUrl = url;
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) {
@@ -16,6 +16,12 @@ export const VideoEmbed = ({ url }: VideoEmbedProps) => {
   const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
   if (youtubeMatch) {
     embedUrl = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+  }
+
+  // Loom support
+  const loomMatch = url.match(/loom\.com\/share\/([a-zA-Z0-9]+)/);
+  if (loomMatch) {
+    embedUrl = `https://www.loom.com/embed/${loomMatch[1]}`;
   }
 
   return (
