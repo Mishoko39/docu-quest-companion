@@ -138,8 +138,18 @@ const UserProgressTable = () => {
                     ))}
                   </div>
                 </td>
-                <td className="p-3 text-muted-foreground text-sm">
-                  {u.completedLessons}/{u.totalLessons} leçons
+                <td className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 h-2 rounded-full bg-secondary overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-accent transition-all"
+                        style={{ width: `${u.totalLessons ? (u.completedLessons / u.totalLessons) * 100 : 0}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      {u.completedLessons}/{u.totalLessons}
+                    </span>
+                  </div>
                 </td>
               </tr>
             ))}
