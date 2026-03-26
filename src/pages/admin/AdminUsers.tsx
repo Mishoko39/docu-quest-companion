@@ -197,8 +197,13 @@ const AdminUsers = () => {
                   <span className={`text-xs px-2 py-1 rounded-full ${
                     u.is_active ? "bg-success/20 text-success" : "bg-destructive/20 text-destructive"
                   }`}>
-                    {u.is_active ? "Actif" : "Inactif"}
+                  {u.is_active ? "Actif" : "Inactif"}
                   </span>
+                </td>
+                <td className="p-3 text-right">
+                  <Button variant="ghost" size="sm" onClick={() => setEditUser(u)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
                 </td>
               </tr>
             ))}
