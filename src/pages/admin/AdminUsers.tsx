@@ -8,7 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, UserCog } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
+import EditUserDialog from "@/components/admin/EditUserDialog";
 
 const AdminUsers = () => {
   const { toast } = useToast();
