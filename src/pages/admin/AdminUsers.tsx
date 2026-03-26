@@ -210,6 +210,12 @@ const AdminUsers = () => {
           </tbody>
         </table>
       </div>
+
+      <EditUserDialog
+        user={editUser}
+        open={!!editUser}
+        onOpenChange={(open) => { if (!open) setEditUser(null); }}
+      />
     </div>
   );
 };
