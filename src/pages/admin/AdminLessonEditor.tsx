@@ -140,13 +140,10 @@ const BlockEditor = ({
       case "text":
         return (
           <div className="space-y-2">
-            <Label className="text-foreground">Contenu HTML</Label>
-            <Textarea
-              value={content.html || ""}
-              onChange={(e) => setContent({ ...content, html: e.target.value })}
-              rows={6}
-              placeholder="<p>Votre contenu ici...</p>"
-              className="bg-secondary font-mono text-sm"
+            <Label className="text-foreground">Contenu</Label>
+            <RichTextEditor
+              content={content.html || ""}
+              onChange={(html) => setContent({ ...content, html })}
             />
           </div>
         );
