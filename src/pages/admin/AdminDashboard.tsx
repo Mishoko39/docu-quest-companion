@@ -75,30 +75,32 @@ const UserProgressTable = () => {
   const { data: users } = useQuery({
     queryKey: ["admin-users-progress"],
     queryFn: async () => {
-      const { data: profiles } = await supabase
-        .from("profiles")
-        .select("*, user_roles(role), user_poles(pole:poles(name))");
-      
-      const { data: progress } = await supabase
-        .from("user_progress")
-        .select("user_id, completed")
-        .eq("completed", true);
+      const [profilesRes, rolesRes, polesRes, progressRes] = await Promise.all([
+        supabase.from("profiles").select("*"),
+        supabase.from("user_roles").select("user_id, role"),
+        supabase.from("user_poles").select("user_id, pole:poles(name)"),
+        supabase.from("user_progress").select("user_id, completed").eq("completed", true),
+      ]);
 
       const { count: totalLessons } = await supabase
         .from("lessons")
         .select("*", { count: "exact", head: true });
 
+      const roles = rolesRes.data || [];
+      const userPoles = polesRes.data || [];
+      const progress = progressRes.data || [];
+
       const progressMap: Record<string, number> = {};
-      progress?.forEach((p) => {
+      progress.forEach((p) => {
         progressMap[p.user_id] = (progressMap[p.user_id] || 0) + 1;
       });
 
-      return profiles?.map((p) => ({
+      return (profilesRes.data || []).map((p) => ({
         ...p,
         completedLessons: progressMap[p.user_id] || 0,
         totalLessons: totalLessons || 0,
-        poles: (p as any).user_poles?.map((up: any) => up.pole?.name).filter(Boolean) || [],
-        role: (p as any).user_roles?.[0]?.role || "user",
+        poles: userPoles.filter((up) => up.user_id === p.user_id).map((up: any) => up.pole?.name).filter(Boolean),
+        role: roles.find((r) => r.user_id === p.user_id && r.role === "admin") ? "admin" : "user",
       }));
     },
   });
