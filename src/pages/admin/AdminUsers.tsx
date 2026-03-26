@@ -168,6 +168,7 @@ const AdminUsers = () => {
               <th className="text-left p-3 text-sm font-medium text-muted-foreground">Rôle</th>
               <th className="text-left p-3 text-sm font-medium text-muted-foreground">Pôles</th>
               <th className="text-left p-3 text-sm font-medium text-muted-foreground">Statut</th>
+              <th className="text-right p-3 text-sm font-medium text-muted-foreground">Actions</th>
             </tr>
           </thead>
           <tbody>
