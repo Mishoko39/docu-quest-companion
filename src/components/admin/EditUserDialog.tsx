@@ -70,9 +70,11 @@ const EditUserDialog = ({ user, open, onOpenChange }: EditUserDialogProps) => {
         .eq("user_id", userId);
       if (deleteRolesError) throw deleteRolesError;
 
-      const rolesToInsert = [{ user_id: userId, role: "user" as const }];
+      const rolesToInsert: { user_id: string; role: "admin" | "user" }[] = [
+        { user_id: userId, role: "user" },
+      ];
       if (form.role === "admin") {
-        rolesToInsert.push({ user_id: userId, role: "admin" as const });
+        rolesToInsert.push({ user_id: userId, role: "admin" });
       }
       const { error: insertRolesError } = await supabase
         .from("user_roles")
