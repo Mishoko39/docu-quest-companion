@@ -41,7 +41,7 @@ const EditUserDialog = ({ user, open, onOpenChange }: EditUserDialogProps) => {
       setForm({
         first_name: user.first_name || "",
         last_name: user.last_name || "",
-        role: user.user_roles?.[0]?.role || "user",
+        role: user.user_roles?.some((r: any) => r.role === "admin") ? "admin" : "user",
         poles: user.user_poles?.map((up: any) => up.pole_id) || [],
         is_active: user.is_active ?? true,
       });
@@ -50,50 +50,18 @@ const EditUserDialog = ({ user, open, onOpenChange }: EditUserDialogProps) => {
 
   const updateUser = useMutation({
     mutationFn: async () => {
-      const userId = user.user_id;
-
-      // Update profile
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({
+      const { data, error } = await supabase.functions.invoke("update-user", {
+        body: {
+          user_id: user.user_id,
           first_name: form.first_name,
           last_name: form.last_name,
+          role: form.role,
+          pole_ids: form.poles,
           is_active: form.is_active,
-        })
-        .eq("user_id", userId);
-      if (profileError) throw profileError;
-
-      // Update role: delete existing, insert new
-      const { error: deleteRolesError } = await supabase
-        .from("user_roles")
-        .delete()
-        .eq("user_id", userId);
-      if (deleteRolesError) throw deleteRolesError;
-
-      const rolesToInsert: { user_id: string; role: "admin" | "user" }[] = [
-        { user_id: userId, role: "user" },
-      ];
-      if (form.role === "admin") {
-        rolesToInsert.push({ user_id: userId, role: "admin" });
-      }
-      const { error: insertRolesError } = await supabase
-        .from("user_roles")
-        .insert(rolesToInsert);
-      if (insertRolesError) throw insertRolesError;
-
-      // Update poles: delete existing, insert new
-      const { error: deletePolesError } = await supabase
-        .from("user_poles")
-        .delete()
-        .eq("user_id", userId);
-      if (deletePolesError) throw deletePolesError;
-
-      if (form.poles.length > 0) {
-        const { error: insertPolesError } = await supabase
-          .from("user_poles")
-          .insert(form.poles.map((poleId) => ({ user_id: userId, pole_id: poleId })));
-        if (insertPolesError) throw insertPolesError;
-      }
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
     },
     onSuccess: () => {
       toast({ title: "Utilisateur mis à jour avec succès" });

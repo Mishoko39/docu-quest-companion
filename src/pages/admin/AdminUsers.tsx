@@ -179,9 +179,9 @@ const AdminUsers = () => {
                 </td>
                 <td className="p-3">
                   <span className={`text-xs px-2 py-1 rounded-full ${
-                    u.user_roles?.[0]?.role === "admin" ? "bg-accent/20 text-accent" : "bg-primary/20 text-primary-foreground"
+                    u.user_roles?.some((r: any) => r.role === "admin") ? "bg-accent/20 text-accent" : "bg-primary/20 text-primary-foreground"
                   }`}>
-                    {u.user_roles?.[0]?.role || "user"}
+                    {u.user_roles?.some((r: any) => r.role === "admin") ? "admin" : "user"}
                   </span>
                 </td>
                 <td className="p-3">
