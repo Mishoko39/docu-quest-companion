@@ -8,7 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, UserCog } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
+import EditUserDialog from "@/components/admin/EditUserDialog";
 
 const AdminUsers = () => {
   const { toast } = useToast();
@@ -84,6 +85,8 @@ const AdminUsers = () => {
         : [...prev.poles, poleId],
     }));
   };
+
+  const [editUser, setEditUser] = useState<any>(null);
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -165,6 +168,7 @@ const AdminUsers = () => {
               <th className="text-left p-3 text-sm font-medium text-muted-foreground">Rôle</th>
               <th className="text-left p-3 text-sm font-medium text-muted-foreground">Pôles</th>
               <th className="text-left p-3 text-sm font-medium text-muted-foreground">Statut</th>
+              <th className="text-right p-3 text-sm font-medium text-muted-foreground">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -193,14 +197,25 @@ const AdminUsers = () => {
                   <span className={`text-xs px-2 py-1 rounded-full ${
                     u.is_active ? "bg-success/20 text-success" : "bg-destructive/20 text-destructive"
                   }`}>
-                    {u.is_active ? "Actif" : "Inactif"}
+                  {u.is_active ? "Actif" : "Inactif"}
                   </span>
+                </td>
+                <td className="p-3 text-right">
+                  <Button variant="ghost" size="sm" onClick={() => setEditUser(u)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <EditUserDialog
+        user={editUser}
+        open={!!editUser}
+        onOpenChange={(open) => { if (!open) setEditUser(null); }}
+      />
     </div>
   );
 };
