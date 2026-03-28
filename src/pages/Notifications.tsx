@@ -51,7 +51,20 @@ const Notifications = () => {
 
   return (
     <div className="space-y-6 animate-fade-in max-w-2xl">
-      <h1 className="text-2xl font-bold text-foreground">Notifications</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-foreground">Notifications</h1>
+        {hasUnread && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => markAllRead.mutate()}
+            disabled={markAllRead.isPending}
+          >
+            <CheckCheck className="mr-2 h-4 w-4" />
+            Tout marquer comme lu
+          </Button>
+        )}
+      </div>
 
       <div className="space-y-2">
         {notifications?.map((notif) => (
