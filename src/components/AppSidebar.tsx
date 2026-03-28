@@ -29,7 +29,6 @@ import { Separator } from "@/components/ui/separator";
 const userItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Espaces", url: "/spaces", icon: BookOpen },
-  { title: "Notifications", url: "/notifications", icon: Bell },
 ];
 
 const adminItems = [
