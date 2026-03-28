@@ -16,9 +16,7 @@ const AppLayout = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl gradient-gold animate-pulse">
-          <span className="text-lg font-bold text-accent-foreground">MPI</span>
-        </div>
+        <img src="/logo-mpi.png" alt="Mon Plan Immo" className="h-12 animate-pulse" />
       </div>
     );
   }
