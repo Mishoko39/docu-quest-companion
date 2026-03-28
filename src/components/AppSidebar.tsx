@@ -10,6 +10,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 import {
   Sidebar,
   SidebarContent,
