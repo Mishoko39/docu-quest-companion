@@ -1,7 +1,6 @@
 import {
   LayoutDashboard,
   BookOpen,
-  Bell,
   Users,
   FolderTree,
   BarChart3,
