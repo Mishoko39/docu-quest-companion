@@ -49,7 +49,7 @@ const AppLayout = () => {
                 )}
               </Button>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center text-xs font-semibold text-primary-foreground">
+                <div className="w-8 h-8 rounded-full gradient-mpi flex items-center justify-center text-xs font-semibold text-primary-foreground">
                   {profile?.first_name?.[0] || "U"}
                 </div>
               </div>
