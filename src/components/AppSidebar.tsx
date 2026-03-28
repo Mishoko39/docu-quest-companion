@@ -50,9 +50,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <div className="p-4 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl gradient-gold flex items-center justify-center flex-shrink-0">
-          <span className="text-sm font-bold text-accent-foreground">MPI</span>
-        </div>
+        <img src="/logo-mpi.png" alt="MPI" className="w-10 h-10 object-contain flex-shrink-0 brightness-0 invert" />
         {!collapsed && (
           <div className="animate-slide-in">
             <p className="font-semibold text-sidebar-accent-foreground text-sm">Mon Plan Immo</p>

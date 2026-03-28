@@ -35,12 +35,14 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md animate-fade-in">
-        <div className="bg-card border border-border rounded-xl p-8 shadow-2xl">
+        <div className="bg-card border border-border rounded-xl p-8 shadow-card">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl gradient-gold mb-4">
-              <span className="text-2xl font-bold text-accent-foreground">MPI</span>
-            </div>
+            <img
+              src="/logo-mpi.png"
+              alt="Mon Plan Immo"
+              className="h-16 mx-auto mb-4"
+            />
             <h1 className="text-2xl font-bold text-foreground">Mon Plan Immo</h1>
             <p className="text-muted-foreground mt-2">Plateforme d'onboarding interne</p>
           </div>
@@ -72,8 +74,7 @@ const Login = () => {
             </div>
             <Button
               type="submit"
-              variant="gold"
-              className="w-full"
+              className="w-full gradient-mpi text-primary-foreground font-semibold shadow-primary hover:opacity-90 transition-opacity"
               disabled={loading}
             >
               {loading ? "Connexion..." : "Se connecter"}
