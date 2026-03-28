@@ -10,6 +10,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 import {
   Sidebar,
   SidebarContent,
@@ -42,6 +43,7 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const { isAdmin, signOut, profile } = useAuth();
   const navigate = useNavigate();
+  const unreadCount = useUnreadNotifications();
 
   const handleSignOut = async () => {
     await signOut();
@@ -78,7 +80,14 @@ export function AppSidebar() {
                       className="hover:bg-sidebar-accent/50 text-sidebar-foreground"
                       activeClassName="bg-sidebar-accent text-accent font-medium"
                     >
-                      <item.icon className="mr-2 h-4 w-4" />
+                      <div className="relative mr-2">
+                        <item.icon className="h-4 w-4" />
+                        {item.url === "/notifications" && unreadCount > 0 && (
+                          <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center px-1">
+                            {unreadCount > 99 ? "99+" : unreadCount}
+                          </span>
+                        )}
+                      </div>
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
