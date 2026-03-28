@@ -55,6 +55,11 @@ export default {
           foreground: "hsl(var(--gold-foreground))",
           glow: "hsl(var(--gold-glow))",
         },
+        "mpi-blue": {
+          DEFAULT: "hsl(var(--mpi-blue))",
+          light: "hsl(var(--mpi-blue-light))",
+        },
+        "mpi-navy": "hsl(var(--mpi-navy))",
         surface: {
           DEFAULT: "hsl(var(--surface))",
           hover: "hsl(var(--surface-hover))",
