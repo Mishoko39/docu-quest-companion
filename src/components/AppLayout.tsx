@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 
 const AppLayout = () => {
   const { user, isLoading, profile } = useAuth();
