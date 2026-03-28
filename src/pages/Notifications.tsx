@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Bell, Check } from "lucide-react";
+import { Bell, Check, CheckCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -33,9 +33,38 @@ const Notifications = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications"] }),
   });
 
+  const markAllRead = useMutation({
+    mutationFn: async () => {
+      await supabase
+        .from("notifications")
+        .update({ is_read: true })
+        .eq("user_id", user!.id)
+        .eq("is_read", false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["unread-notifications-count"] });
+    },
+  });
+
+  const hasUnread = notifications?.some((n) => !n.is_read);
+
   return (
     <div className="space-y-6 animate-fade-in max-w-2xl">
-      <h1 className="text-2xl font-bold text-foreground">Notifications</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-foreground">Notifications</h1>
+        {hasUnread && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => markAllRead.mutate()}
+            disabled={markAllRead.isPending}
+          >
+            <CheckCheck className="mr-2 h-4 w-4" />
+            Tout marquer comme lu
+          </Button>
+        )}
+      </div>
 
       <div className="space-y-2">
         {notifications?.map((notif) => (
