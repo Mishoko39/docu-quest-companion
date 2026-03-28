@@ -43,6 +43,7 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const { isAdmin, signOut, profile } = useAuth();
   const navigate = useNavigate();
+  const unreadCount = useUnreadNotifications();
 
   const handleSignOut = async () => {
     await signOut();
