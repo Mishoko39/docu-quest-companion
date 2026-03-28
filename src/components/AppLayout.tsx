@@ -11,6 +11,7 @@ import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 const AppLayout = () => {
   const { user, isLoading, profile } = useAuth();
   const navigate = useNavigate();
+  const unreadCount = useUnreadNotifications();
 
   if (isLoading) {
     return (
