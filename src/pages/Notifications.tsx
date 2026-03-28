@@ -33,6 +33,22 @@ const Notifications = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications"] }),
   });
 
+  const markAllRead = useMutation({
+    mutationFn: async () => {
+      await supabase
+        .from("notifications")
+        .update({ is_read: true })
+        .eq("user_id", user!.id)
+        .eq("is_read", false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["unread-notifications-count"] });
+    },
+  });
+
+  const hasUnread = notifications?.some((n) => !n.is_read);
+
   return (
     <div className="space-y-6 animate-fade-in max-w-2xl">
       <h1 className="text-2xl font-bold text-foreground">Notifications</h1>
